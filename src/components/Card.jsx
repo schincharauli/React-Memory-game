@@ -1,9 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconsComponent from "./IconsComponent";
 import logo from "../assets/logo.svg";
 
 function Card() {
   const [cards, setCards] = useState([...IconsComponent, ...IconsComponent]);
+  const [isClicked, setIsclicked] = useState(false);
+  const [buttonStates, setButtonStates] = useState([]);
+  const [clickedCount, setClickedCount] = useState(0);
+
+  const rotateHandler = (index) => {
+    setIsclicked(true);
+    setButtonStates((prevState) => {
+      const updatedStates = [...prevState];
+      updatedStates[index] = true;
+      return updatedStates;
+    });
+    setClickedCount((prevCount) => prevCount + 1);
+    setClickedIcons((prevIcons) => {
+      if (prevIcons.includes(index)) {
+        return prevIcons;
+      }
+      const updatedIcons = [...prevIcons, index];
+      if (updatedIcons.length === 2) {
+        const [firstIcon, secondIcon] = updatedIcons;
+        if (cards[firstIcon] === cards[secondIcon]) {
+          setButtonStates((prevState) => {
+            const updatedStates = [...prevState];
+            updatedStates[firstIcon] = true;
+            updatedStates[secondIcon] = true;
+            return updatedStates;
+          });
+          return [];
+        }
+      }
+      return updatedIcons;
+    });
+  };
+
+  useEffect(() => {
+    if (clickedCount === 3) {
+      setButtonStates([]);
+      setClickedCount(0);
+    }
+  }, [clickedCount]);
 
   return (
     <div className="bg-bgColorLight min-h-screen">
@@ -13,14 +52,19 @@ function Card() {
           Menu
         </button>
       </div>
-      <div className="w-92 pl-3 pr-3 pt-28 flex gap-3 justify-center flex-wrap">
+      <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
         {cards.map((card, index) => (
-          <div key={index} className="w-16 h-16 rounded-full bg-bgColorDark">
-            <img
-              className="w-10 h-10 m-3 flex justify-center align-middle "
-              src={card}
-              alt=""
-            />
+          <div className="flex justify-center items-center" key={index}>
+            <div
+              className={`z-${
+                buttonStates[index] ? 0 : 10
+              } w-16 h-16 rounded-full bg-${
+                buttonStates[index] ? "yellow" : "bgColorDark"
+              } `}
+              onClick={() => rotateHandler(index)}
+            ></div>
+
+            <img className="absolute z-0 w-10 h-10 m-3" src={card} alt="" />
           </div>
         ))}
         <div className="flex justify-center gap-6 pt-24">

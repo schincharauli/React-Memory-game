@@ -1,0 +1,20 @@
+/* .card {
+  @apply relative transform-style[preserve-3d] transition-transform[0.5s];
+}
+
+.rotate-180 {
+  @apply rotate-y-180;
+}
+
+.card-front,
+.card-back {
+  @apply absolute top-0 left-0 w-full h-full backface-hidden;
+}
+
+.card-front {
+  @apply rotate-y-0 bg-black;
+}
+
+.card-back {
+  @apply rotate-y-180 bg-black;
+} */
