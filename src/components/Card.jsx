@@ -8,6 +8,15 @@ function Card() {
   const [buttonStates, setButtonStates] = useState([]);
   const [clickedCount, setClickedCount] = useState(0);
 
+  const shuffleArray = (array) => {
+    const shuffledArray = array.sort(() => Math.random() - 0.5);
+    return shuffledArray;
+  };
+
+  useEffect(() => {
+    setCards(shuffleArray(cards));
+  }, []);
+
   const rotateHandler = (index) => {
     setIsclicked(true);
     setButtonStates((prevState) => {
@@ -54,15 +63,17 @@ function Card() {
       </div>
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
         {cards.map((card, index) => (
-          <div
-            className={`z-${
-              buttonStates[index] ? 0 : 10
-            } w-16 h-16 rounded-full p-3 bg-${
-              buttonStates[index] ? "yellow" : "bgColorDark"
-            } `}
-            onClick={() => rotateHandler(index)}
-          >
-            <img className="absolute z-0 w-10 h-10 p-2" src={card} alt="" />
+          <div className="flex justify-center items-center">
+            <div
+              className={`z-${
+                buttonStates[index] ? 10 : 20
+              } relative w-16 h-16 rounded-full p-3 bg-${
+                buttonStates[index] ? "yellow" : "bgColorDark"
+              } `}
+              onClick={() => rotateHandler(index)}
+              key={index}
+            ></div>
+            <img className="absolute z-10 w-10 h-10 p-2" src={card} alt="" />
           </div>
         ))}
         <div className="flex justify-center gap-6 pt-24">
