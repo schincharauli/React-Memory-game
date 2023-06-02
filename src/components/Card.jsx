@@ -54,17 +54,15 @@ function Card() {
       </div>
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
         {cards.map((card, index) => (
-          <div className="flex justify-center items-center" key={index}>
-            <div
-              className={`z-${
-                buttonStates[index] ? 0 : 10
-              } w-16 h-16 rounded-full bg-${
-                buttonStates[index] ? "yellow" : "bgColorDark"
-              } `}
-              onClick={() => rotateHandler(index)}
-            ></div>
-
-            <img className="absolute z-0 w-10 h-10 m-3" src={card} alt="" />
+          <div
+            className={`z-${
+              buttonStates[index] ? 0 : 10
+            } w-16 h-16 rounded-full p-3 bg-${
+              buttonStates[index] ? "yellow" : "bgColorDark"
+            } `}
+            onClick={() => rotateHandler(index)}
+          >
+            <img className="absolute z-0 w-10 h-10 p-2" src={card} alt="" />
           </div>
         ))}
         <div className="flex justify-center gap-6 pt-24">
