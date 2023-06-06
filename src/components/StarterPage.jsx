@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Card from "./Card";
 import logoWhite from "../assets/logo-white.svg";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function StarterPage(props) {
-  const numberHandler = props.numberHandler;
-
+  const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState("number");
 
   const [selectedPlayer, setSelectedPlayer] = useState("1");
-  const [selectedGridSize, setSelectedGridSize] = useState("4x4");
+  const [selectedGridSize, setSelectedGridSize] = useState(4);
 
   const typeHandler = (type) => {
     setSelectedType(type);
@@ -38,7 +38,6 @@ export default function StarterPage(props) {
           </p>
           <div className="text-textColorWhite flex justify-between pt-2">
             <button
-              value="number"
               className={`h-10 w-32 rounded-full pl-4 pr-4 pt-2 pb-2 ${
                 selectedType === "number"
                   ? "bg-coveredButtonColor"
@@ -52,7 +51,6 @@ export default function StarterPage(props) {
             </button>
 
             <button
-              value="icon"
               className={`h-10 w-32 rounded-full pl-4 pr-4 pt-2 pb-2 ${
                 selectedType === "icon"
                   ? "bg-coveredButtonColor"
@@ -124,36 +122,40 @@ export default function StarterPage(props) {
           <div className="text-textColorWhite flex justify-between pt-2">
             <button
               className={`h-10 w-32 rounded-full pl-4 pr-4 pt-2 pb-2 ${
-                selectedGridSize === "4x4"
+                selectedGridSize === 4
                   ? "bg-coveredButtonColor"
                   : "bg-guessedButtonColor"
               }`}
               onClick={() => {
-                gridHandler("4x4");
+                gridHandler(4);
               }}
             >
               4x4
             </button>
             <button
               className={`h-10 w-32 rounded-full pl-4 pr-4 pt-2 pb-2 ${
-                selectedGridSize === "6x6"
+                selectedGridSize === 6
                   ? "bg-coveredButtonColor"
                   : "bg-guessedButtonColor"
               }`}
               onClick={() => {
-                gridHandler("6x6");
+                gridHandler(6);
               }}
             >
               6x6
             </button>
           </div>
           <div className="flex justify-center">
-            <Link
-              to={"/cards"}
+            <button
+              onClick={() => {
+                navigate("/cards", {
+                  state: { selectedType, selectedPlayer, selectedGridSize },
+                });
+              }}
               className="h-12 w-72 bg-yellow rounded-full text-textColorWhite mt-12 mb-6 md:w-80 flex justify-center items-center"
             >
-              <p className=""> Start Game</p>
-            </Link>
+              Start Game
+            </button>
           </div>
         </div>
       </section>

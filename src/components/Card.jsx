@@ -1,66 +1,73 @@
 import React, { useState, useEffect } from "react";
 import StarterPage from "./StarterPage";
-import IconsComponent from "./IconsComponent";
 import logo from "../assets/logo.svg";
+import anchor from "../assets/icons/anchor.svg";
+import astronaut from "../assets/icons/astronaut.svg";
+import ghost from "../assets/icons/ghost.svg";
+import hippo from "../assets/icons/hippo.svg";
+import lemon from "../assets/icons/lemon.svg";
+import plane from "../assets/icons/plane.svg";
+import robot from "../assets/icons/robot.svg";
+import snow from "../assets/icons/snow.svg";
+import poo from "../assets/icons/poo.svg";
+import umbrella from "../assets/icons/umbrella.svg";
+import earth from "../assets/icons/earth.svg";
+import incognito from "../assets/icons/incognito.svg";
+import rocket from "../assets/icons/rocket.svg";
+import fly from "../assets/icons/fly.svg";
+import snowman from "../assets/icons/snowman.svg";
+import rainbow from "../assets/icons/rainbow.svg";
+import meteor from "../assets/icons/meteor.svg";
+import star from "../assets/icons/star.svg";
+import { useLocation } from "react-router-dom";
 
 function Card(props) {
-  const numberHandler = props.children;
-  console.log(numberHandler);
-  const [cards, setCards] = useState([...IconsComponent, ...IconsComponent]);
-  const [isClicked, setIsclicked] = useState(false);
-  const [buttonStates, setButtonStates] = useState([]);
-  const [clickedCount, setClickedCount] = useState(0);
-  const [clickedIcons, setClickedIcons] = useState([]);
+  const location = useLocation();
+  const choosenType = location.state.selectedType;
+  const choosenPlayer = location.state.selectedPlayer;
+  const choosenGrid = location.state.selectedGridSize;
+  const size = choosenGrid ** 2;
+  const forByforValue = props.gridHandler;
+  const forByFor = Array.from(Array(size / 2).keys());
 
-  const shuffleArray = (array) => {
-    const shuffledArray = array.sort(() => Math.random() - 0.5);
-    return shuffledArray;
-  };
+  const mainArray = [...forByFor, ...forByFor];
 
-  useEffect(() => {
-    setCards(shuffleArray(cards));
-  }, []);
+  const icons = [
+    anchor,
+    astronaut,
+    ghost,
+    hippo,
+    lemon,
+    plane,
+    robot,
+    snow,
+    star,
+    poo,
+    umbrella,
+    earth,
+    incognito,
+    rocket,
+    fly,
+    snowman,
+    rainbow,
+    meteor,
+  ];
+  const shuffledFor = mainArray.sort((a, b) => 0.5 - Math.random());
 
-  const rotateHandler = (index) => {
-    setIsclicked(true);
-    setButtonStates((prevState) => {
-      const updatedStates = [...prevState];
-      updatedStates[index] = true;
-      return updatedStates;
-    });
-    setClickedCount((prevCount) => prevCount + 1);
-    setClickedIcons((prevIcons) => {
-      if (prevIcons.includes(index)) {
-        return prevIcons;
-      }
-      const updatedIcons = [prevIcons, index];
-      if (updatedIcons.length === 2) {
-        const [firstIcon, secondIcon] = updatedIcons;
-        if (cards[firstIcon] === cards[secondIcon]) {
-          setButtonStates((prevState) => {
-            const updatedStates = [...prevState];
-            updatedStates[firstIcon] = true;
-            updatedStates[secondIcon] = true;
-            return updatedStates;
-          });
-          alert("Hello"); // Display alert message
-          return [];
-        }
-      }
-      return updatedIcons;
+  const generate = () => {
+    return mainArray.map((number, index) => {
+      return {
+        value: icons[number],
+        id: index,
+        clicked: false,
+        matched: false,
+      };
     });
   };
-
-  useEffect(() => {
-    if (clickedCount === 3) {
-      setButtonStates([]);
-      setClickedCount(0);
-    }
-  }, [clickedCount]);
 
   return (
     <div className="bg-bgColorLight min-h-screen">
-      <div className="flex p-3 justify-between items-center">
+      <div className="flex p-6 justify-between items-center">
         <img className="w-24 h-8" src={logo} alt="logo" />
         <button className="w-20 h-10 rounded-full bg-yellow text-textColorWhite">
           Menu
@@ -68,19 +75,15 @@ function Card(props) {
       </div>
 
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
-        {cards.map((card, index) => (
+        {generate().map((number, index) => (
           <div className="flex justify-center items-center" key={index}>
             <div
-              className={`z-${
-                buttonStates[index] ? 20 : 10
-              } relative w-16 h-16 rounded-full p-3 bg-${
-                buttonStates[index] ? "yellow" : "bgColorDark"
-              } `}
-              onClick={() => rotateHandler(index)}
+              className={`z-20  relative w-16 h-16 rounded-full p-3 border border-black`}
             ></div>
-            <img className="absolute z-0 w-10 h-10 p-2" src={card} alt="" />
+            <img src={icons} className="absolute z-0 w-10 h-10 p-2" alt="" />
           </div>
         ))}
+
         <div className="flex justify-center gap-6 pt-24">
           <div className="w-36 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Time</p>
