@@ -2,27 +2,27 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import StarterPage from "./components/StarterPage";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Card from "./components/Card";
-import ForOnForCard from "./components/ForOnForCard";
-import SixOnSixCard from "./components/SixOnSixCard";
 
 function App() {
+  const [numberClick, setNumberClick] = useState("");
+
+  const numberHandler = (numbers) => {
+    setNumberClick(numbers);
+  };
+
   return (
     <Router>
-      <Switch>
-        <Route exact path="/" component={StarterPage} />
-        <Route path="/cards" component={Card} />
-      </Switch>
-
-      <div>
-        {/* <StarterPage></StarterPage> */}
-        {/* <Card></Card> */}
-
-        {/* <ForOnForCard /> */}
-        {/* <SixOnSixCard /> */}
-      </div>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<StarterPage numberHandler={numberHandler} />}
+        />
+        <Route path="/cards" element={<Card />} />
+      </Routes>
     </Router>
   );
 }

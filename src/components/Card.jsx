@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
+import StarterPage from "./StarterPage";
 import IconsComponent from "./IconsComponent";
 import logo from "../assets/logo.svg";
 
-function Card() {
+function Card(props) {
+  const numberHandler = props.children;
+  console.log(numberHandler);
   const [cards, setCards] = useState([...IconsComponent, ...IconsComponent]);
   const [isClicked, setIsclicked] = useState(false);
   const [buttonStates, setButtonStates] = useState([]);
   const [clickedCount, setClickedCount] = useState(0);
+  const [clickedIcons, setClickedIcons] = useState([]);
 
   const shuffleArray = (array) => {
     const shuffledArray = array.sort(() => Math.random() - 0.5);
@@ -29,7 +33,7 @@ function Card() {
       if (prevIcons.includes(index)) {
         return prevIcons;
       }
-      const updatedIcons = [...prevIcons, index];
+      const updatedIcons = [prevIcons, index];
       if (updatedIcons.length === 2) {
         const [firstIcon, secondIcon] = updatedIcons;
         if (cards[firstIcon] === cards[secondIcon]) {
@@ -39,6 +43,7 @@ function Card() {
             updatedStates[secondIcon] = true;
             return updatedStates;
           });
+          alert("Hello"); // Display alert message
           return [];
         }
       }
@@ -61,19 +66,19 @@ function Card() {
           Menu
         </button>
       </div>
+
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
         {cards.map((card, index) => (
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center" key={index}>
             <div
               className={`z-${
-                buttonStates[index] ? 10 : 20
+                buttonStates[index] ? 20 : 10
               } relative w-16 h-16 rounded-full p-3 bg-${
                 buttonStates[index] ? "yellow" : "bgColorDark"
               } `}
               onClick={() => rotateHandler(index)}
-              key={index}
             ></div>
-            <img className="absolute z-10 w-10 h-10 p-2" src={card} alt="" />
+            <img className="absolute z-0 w-10 h-10 p-2" src={card} alt="" />
           </div>
         ))}
         <div className="flex justify-center gap-6 pt-24">
