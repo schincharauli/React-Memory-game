@@ -77,7 +77,10 @@ function Card(props) {
         }
         return card;
       });
-      return setRotate(updatedRotate);
+      setTimeout(() => {
+        setRotate(updatedRotate);
+      }, 3000);
+      return;
     }
 
     const updatedRotate = [...rotate].map((card) => {
@@ -91,7 +94,6 @@ function Card(props) {
     console.log("clicked");
   };
 
-  // console.log(rotate);
   return (
     <div className="bg-bgColorLight min-h-screen">
       <div className="flex p-6 justify-between items-center">
