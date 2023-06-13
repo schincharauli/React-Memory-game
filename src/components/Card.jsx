@@ -20,6 +20,7 @@ import rainbow from "../assets/icons/rainbow.svg";
 import meteor from "../assets/icons/meteor.svg";
 import star from "../assets/icons/star.svg";
 import { useLocation } from "react-router-dom";
+import { values } from "lodash";
 
 function Card(props) {
   const location = useLocation();
@@ -31,7 +32,6 @@ function Card(props) {
   const forByFor = Array.from(Array(size / 2).keys());
 
   const mainArray = [...forByFor, ...forByFor];
-
   const icons = [
     anchor,
     astronaut,
@@ -52,8 +52,8 @@ function Card(props) {
     rainbow,
     meteor,
   ];
-  const shuffledFor = mainArray.sort((a, b) => 0.5 - Math.random());
 
+  const shuffledFor = mainArray.sort((a, b) => 0.5 - Math.random());
   const generate = () => {
     return mainArray.map((number, index) => {
       return {
@@ -65,6 +65,32 @@ function Card(props) {
     });
   };
 
+  const [rotate, setRotate] = useState(generate());
+
+  const rotateHandler = (rotatedObjects) => {
+    const matchHandler = (match) => match.clicked;
+    const response = rotate.find(matchHandler);
+    if (response && response.value === rotatedObjects.value) {
+      const updatedRotate = [...rotate].map((card) => {
+        if (card.id === rotatedObjects.id || card.id === response.id) {
+          return { ...card, matched: true, clicked: false };
+        }
+        return card;
+      });
+      return setRotate(updatedRotate);
+    }
+
+    const updatedRotate = [...rotate].map((card) => {
+      if (card.id === rotatedObjects.id) {
+        return { ...card, clicked: true };
+      }
+      return card;
+    });
+
+    setRotate(updatedRotate);
+  };
+
+  console.log(rotate);
   return (
     <div className="bg-bgColorLight min-h-screen">
       <div className="flex p-6 justify-between items-center">
@@ -75,17 +101,24 @@ function Card(props) {
       </div>
 
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
-        {generate().map((number, index) => (
+        {rotate.map((icons, index) => (
           <div className="flex justify-center items-center" key={index}>
             <div
-              className={`z-20  relative w-16 h-16 rounded-full p-3 border border-black`}
-            ></div>
-            <img src={icons} className="absolute z-0 w-10 h-10 p-2" alt="" />
+              className={`w-16 h-16 rounded-full p-3 bg-bgColorDark  `}
+              onClick={() => rotateHandler(icons)}
+            >
+              <img
+                src={icons.value}
+                className={` w-10 h-10 p-2 ${
+                  icons.clicked || icons.matched ? "block" : "hidden"
+                }`}
+              />
+            </div>
           </div>
         ))}
 
-        <div className="flex justify-center gap-6 pt-24">
-          <div className="w-36 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+        <div className="flex justify-center gap-6 pt-24 pl-24">
+          <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Time</p>
             <p>1:53</p>
           </div>
