@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useRef } from "react";
 import StarterPage from "./StarterPage";
 import logo from "../assets/logo.svg";
 import anchor from "../assets/icons/anchor.svg";
@@ -89,19 +88,10 @@ function Card(props) {
     });
 
     setRotate(updatedRotate);
+    console.log("clicked");
   };
 
-  const resetMultipleClicks = (event) => {
-    buttonRef.current.disabled = false;
-  };
-  const buttonRef = useRef(null);
-
-  const preventMultipleClicks = (event) => {
-    buttonRef.current.disabled = true;
-    console.log("clicked twice");
-  };
-
-  console.log(rotate);
+  // console.log(rotate);
   return (
     <div className="bg-bgColorLight min-h-screen">
       <div className="flex p-6 justify-between items-center">
@@ -114,12 +104,11 @@ function Card(props) {
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
         {rotate.map((icons, index) => (
           <div className="flex justify-center items-center" key={index}>
-            <div
-              ref={buttonRef}
-              className={`w-16 h-16 rounded-full p-3 bg-bgColorDark  `}
+            <button
+              className={`w-16 h-16 rounded-full p-3 bg-bgColorDark`}
+              disabled={icons.clicked || icons.matched}
               onClick={() => {
                 rotateHandler(icons);
-                preventMultipleClicks();
               }}
             >
               <img
@@ -128,7 +117,7 @@ function Card(props) {
                   icons.clicked || icons.matched ? "block" : "hidden"
                 }`}
               />
-            </div>
+            </button>
           </div>
         ))}
 
