@@ -21,6 +21,7 @@ import meteor from "../assets/icons/meteor.svg";
 import star from "../assets/icons/star.svg";
 import { useLocation } from "react-router-dom";
 import { values } from "lodash";
+import Modal from "./Modal";
 
 function Card(props) {
   const location = useLocation();
@@ -29,8 +30,10 @@ function Card(props) {
   const choosenGrid = location.state.selectedGridSize;
   const size = choosenGrid ** 2;
   const forByforValue = props.gridHandler;
-
   const forByFor = Array.from(Array(size / 2).keys());
+
+  // modal states
+  const [openModal, setOpenModal] = useState(false);
 
   // clickCounter
   const [clickCount, setClickCount] = useState(0);
@@ -121,11 +124,18 @@ function Card(props) {
     setRotate(updatedRotate);
     console.log("clicked");
   };
+
   return (
     <div className="bg-bgColorLight min-h-screen">
+      {openModal && <Modal openModal={openModal} setOpenModal={setOpenModal} />}
       <div className="flex p-6 justify-between items-center">
         <img className="w-24 h-8" src={logo} alt="logo" />
-        <button className="w-20 h-10 rounded-full bg-yellow text-textColorWhite">
+        <button
+          className="w-20 h-10 rounded-full bg-yellow text-textColorWhite"
+          onClick={() => {
+            setOpenModal(true);
+          }}
+        >
           Menu
         </button>
       </div>
@@ -150,19 +160,18 @@ function Card(props) {
             </button>
           </div>
         ))}
-        <div className="flex justify-center gap-6 ">
-          <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+        <div className="flex m-12 pt-4 w-72 gap-2">
+          <div className="w-52 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Time</p>
-            <div>
+            <div className="text-coveredButtonColor">
               <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
               <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
             </div>
           </div>
-          <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+          <div className="w-52 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Moves</p>
-            <p>{clickCount}</p>
+            <p className="text-coveredButtonColor">{clickCount}</p>
           </div>
-          <div></div>
         </div>
       </div>
     </div>
