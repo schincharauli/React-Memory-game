@@ -29,7 +29,15 @@ function Card(props) {
   const choosenGrid = location.state.selectedGridSize;
   const size = choosenGrid ** 2;
   const forByforValue = props.gridHandler;
+
   const forByFor = Array.from(Array(size / 2).keys());
+
+  // clickCounter
+  const [clickCount, setClickCount] = useState(0);
+  // function for clickCounter
+  const clickCounterHandler = () => {
+    setClickCount((prevCount) => prevCount + 1);
+  };
 
   const mainArray = [...forByFor, ...forByFor];
   const icons = [
@@ -129,6 +137,7 @@ function Card(props) {
               className={`w-16 h-16 rounded-full p-3 bg-bgColorDark`}
               disabled={icons.clicked || icons.matched}
               onClick={() => {
+                clickCounterHandler();
                 rotateHandler(icons);
               }}
             >
@@ -141,7 +150,6 @@ function Card(props) {
             </button>
           </div>
         ))}
-
         <div className="flex justify-center gap-6 ">
           <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Time</p>
@@ -152,7 +160,7 @@ function Card(props) {
           </div>
           <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Moves</p>
-            <p>39</p>
+            <p>{clickCount}</p>
           </div>
           <div></div>
         </div>
