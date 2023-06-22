@@ -120,6 +120,19 @@ function Card(props) {
     });
 
     setRotate(updatedRotate);
+
+    if (response) {
+      setTimeout(() => {
+        const updatedRotate = [...rotate].map((card) => {
+          if (card.id === rotatedObjects.id || card.id === response.id) {
+            return { ...card, clicked: false };
+          }
+          return card;
+        });
+
+        setRotate(updatedRotate);
+      }, 1000);
+    }
   };
 
   // new game handler
@@ -140,7 +153,7 @@ function Card(props) {
         />
       )}
       <div className="flex p-6 justify-between items-center">
-        <img className="w-24 h-8" src={logo} alt="logo" />
+        <img className="w-24 h-6" src={logo} alt="logo" />
         <button
           className="w-20 h-10 rounded-full bg-yellow text-textColorWhite"
           onClick={() => {
@@ -155,7 +168,15 @@ function Card(props) {
         {rotate.map((icons, index) => (
           <div className="flex justify-center items-center" key={index}>
             <button
-              className={`w-16 h-16 rounded-full p-3 bg-bgColorDark`}
+              className={`w-16 h-16 rounded-full p-3 bg-bgColorDark ${
+                icons.clicked
+                  ? "bg-yellow"
+                  : icons.matched
+                  ? "bg-guessedButtonColor "
+                  : "bg-bgColorDark"
+              }
+               
+              `}
               disabled={icons.clicked || icons.matched}
               onClick={() => {
                 clickCounterHandler();
