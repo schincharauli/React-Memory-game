@@ -53,7 +53,26 @@ function Card(props) {
     meteor,
   ];
 
+  // stopwatch
+  const [time, setTime] = useState(0);
+  const [process, setProcess] = useState(true);
+
+  useEffect(() => {
+    let interval;
+    if (process) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10);
+      }, 10);
+    } else if (!process) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [process]);
+
+  // shaffled card for by for
   const shuffledFor = mainArray.sort((a, b) => 0.5 - Math.random());
+
+  // main function to generate the cards
   const generate = () => {
     return mainArray.map((number, index) => {
       return {
@@ -66,7 +85,7 @@ function Card(props) {
   };
 
   const [rotate, setRotate] = useState(generate());
-
+  // rotation function
   const rotateHandler = (rotatedObjects) => {
     const matchHandler = (match) => match.clicked;
     const response = rotate.find(matchHandler);
@@ -79,7 +98,8 @@ function Card(props) {
       });
       setTimeout(() => {
         setRotate(updatedRotate);
-      }, 3000);
+      }, 1000);
+
       return;
     }
 
@@ -93,7 +113,6 @@ function Card(props) {
     setRotate(updatedRotate);
     console.log("clicked");
   };
-
   return (
     <div className="bg-bgColorLight min-h-screen">
       <div className="flex p-6 justify-between items-center">
@@ -123,19 +142,22 @@ function Card(props) {
           </div>
         ))}
 
-        <div className="flex justify-center gap-6 pt-24 pl-24">
+        <div className="flex justify-center gap-6 ">
           <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Time</p>
-            <p>1:53</p>
+            <div>
+              <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+              <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
+            </div>
           </div>
-          <div className="w-36 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+          <div className="w-48 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
             <p className="text-textColorGrey">Moves</p>
             <p>39</p>
           </div>
+          <div></div>
         </div>
       </div>
     </div>
   );
 }
-
 export default Card;
