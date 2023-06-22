@@ -34,14 +34,12 @@ function Card(props) {
 
   // modal states
   const [openModal, setOpenModal] = useState(false);
-
   // clickCounter
   const [clickCount, setClickCount] = useState(0);
   // function for clickCounter
   const clickCounterHandler = () => {
     setClickCount((prevCount) => prevCount + 1);
   };
-
   const mainArray = [...forByFor, ...forByFor];
   const icons = [
     anchor,
@@ -122,12 +120,25 @@ function Card(props) {
     });
 
     setRotate(updatedRotate);
-    console.log("clicked");
+  };
+
+  // new game handler
+  const newGameHandler = () => {
+    setTime(0);
+    setProcess(true);
+    setClickCount(0);
+    setRotate(generate());
   };
 
   return (
     <div className="bg-bgColorLight min-h-screen">
-      {openModal && <Modal openModal={openModal} setOpenModal={setOpenModal} />}
+      {openModal && (
+        <Modal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          newGameHandler={newGameHandler}
+        />
+      )}
       <div className="flex p-6 justify-between items-center">
         <img className="w-24 h-8" src={logo} alt="logo" />
         <button
