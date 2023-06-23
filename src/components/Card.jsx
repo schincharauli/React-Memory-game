@@ -22,6 +22,7 @@ import star from "../assets/icons/star.svg";
 import { useLocation } from "react-router-dom";
 import { values } from "lodash";
 import Modal from "./Modal";
+import FinalModal from "./FinalModal";
 
 function Card(props) {
   const location = useLocation();
@@ -34,6 +35,10 @@ function Card(props) {
 
   // modal states
   const [openModal, setOpenModal] = useState(false);
+
+  //finamodal state
+  const [endGame, setEndGame] = useState(false);
+
   // clickCounter
   const [clickCount, setClickCount] = useState(0);
   // function for clickCounter
@@ -78,7 +83,7 @@ function Card(props) {
     return () => clearInterval(interval);
   }, [process]);
 
-  // shaffled card for by for
+  // shuffled card for by for
   const shuffledFor = mainArray.sort((a, b) => 0.5 - Math.random());
 
   // main function to generate the cards
@@ -149,6 +154,13 @@ function Card(props) {
         <Modal
           openModal={openModal}
           setOpenModal={setOpenModal}
+          newGameHandler={newGameHandler}
+        />
+      )}
+      {endGame && (
+        <FinalModal
+          endGame={endGame}
+          setEndGame={setEndGame}
           newGameHandler={newGameHandler}
         />
       )}
