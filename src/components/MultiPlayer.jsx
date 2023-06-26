@@ -70,8 +70,11 @@ function MultiPlayer({
             </button>
           </div>
         ))}
-        <div className="flex m-12 pt-4 w-72 gap-2">
-          <div className="w-52 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center"></div>
+        <div className="flex m-4 pt-4 w-80">
+          <div className="w-16 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+            <span>P1</span>
+            <span>moves</span>
+          </div>
         </div>
       </div>
     </div>
