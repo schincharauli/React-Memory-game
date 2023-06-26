@@ -27,6 +27,7 @@ import FinalModal from "./FinalModal";
 function Card(props) {
   const location = useLocation();
   const choosenType = location.state.selectedType;
+  console.log(choosenType);
   const choosenPlayer = location.state.selectedPlayer;
   const choosenGrid = location.state.selectedGridSize;
   const size = choosenGrid ** 2;
@@ -37,10 +38,11 @@ function Card(props) {
   const [openModal, setOpenModal] = useState(false);
 
   //finamodal state
-  const [endGame, setEndGame] = useState(false);
+  // const [endGame, setEndGame] = useState(false);
 
   // clickCounter
   const [clickCount, setClickCount] = useState(0);
+
   // function for clickCounter
   const clickCounterHandler = () => {
     setClickCount((prevCount) => prevCount + 1);
@@ -70,13 +72,12 @@ function Card(props) {
   // stopwatch
   const [time, setTime] = useState(0);
   const [process, setProcess] = useState(true);
-
   useEffect(() => {
     let interval;
     if (process) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
+        setTime((prevTime) => prevTime + 1000);
+      }, 1000);
     } else if (!process) {
       clearInterval(interval);
     }
@@ -90,7 +91,7 @@ function Card(props) {
   const generate = () => {
     return mainArray.map((number, index) => {
       return {
-        value: icons[number],
+        value: choosenType === "number" ? number : icons[number],
         id: index,
         clicked: false,
         matched: false,
@@ -148,6 +149,9 @@ function Card(props) {
     setRotate(generate());
   };
 
+  const gameIsOver = rotate.every((obj) => obj.matched);
+  console.log(gameIsOver);
+
   return (
     <div className="bg-bgColorLight min-h-screen">
       {openModal && (
@@ -157,13 +161,7 @@ function Card(props) {
           newGameHandler={newGameHandler}
         />
       )}
-      {endGame && (
-        <FinalModal
-          endGame={endGame}
-          setEndGame={setEndGame}
-          newGameHandler={newGameHandler}
-        />
-      )}
+      {gameIsOver && <FinalModal newGameHandler={newGameHandler} />}
       <div className="flex p-6 justify-between items-center">
         <img className="w-24 h-6" src={logo} alt="logo" />
         <button
@@ -195,12 +193,22 @@ function Card(props) {
                 rotateHandler(icons);
               }}
             >
-              <img
-                src={icons.value}
-                className={` w-10 h-10 p-2 ${
-                  icons.clicked || icons.matched ? "block" : "hidden"
-                }`}
-              />
+              {choosenType !== "number" ? (
+                <img
+                  src={icons.value}
+                  className={` w-10 h-10 p-2 ${
+                    icons.clicked || icons.matched ? "block" : "hidden"
+                  }`}
+                />
+              ) : (
+                <span
+                  className={` w-10 h-10 p-2 ${
+                    icons.clicked || icons.matched ? "block" : "hidden"
+                  }`}
+                >
+                  {icons.value}
+                </span>
+              )}
             </button>
           </div>
         ))}

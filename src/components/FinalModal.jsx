@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function FinalModal({ endGame, setEndGame, newGameHandler }) {
+function FinalModal({ newGameHandler }) {
   const navigate = useNavigate();
 
   return (
@@ -23,7 +23,6 @@ function FinalModal({ endGame, setEndGame, newGameHandler }) {
               className="h-12 w-64 bg-yellow rounded-full text-textColorWhite mt-4  md:w-80 flex justify-center items-center"
               onClick={() => {
                 newGameHandler();
-                setEndGame(false);
               }}
             >
               Restart
