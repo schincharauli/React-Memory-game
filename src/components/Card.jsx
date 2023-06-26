@@ -23,11 +23,12 @@ import { useLocation } from "react-router-dom";
 import { values } from "lodash";
 import Modal from "./Modal";
 import FinalModal from "./FinalModal";
+import MultiPlayer from "./MultiPlayer";
 
 function Card(props) {
   const location = useLocation();
   const choosenType = location.state.selectedType;
-  console.log(choosenType);
+  // console.log(choosenType);
   const choosenPlayer = location.state.selectedPlayer;
   const choosenGrid = location.state.selectedGridSize;
   const size = choosenGrid ** 2;
@@ -38,7 +39,7 @@ function Card(props) {
   const [openModal, setOpenModal] = useState(false);
 
   //finamodal state
-  // const [endGame, setEndGame] = useState(false);
+  const [endGame, setEndGame] = useState(false);
 
   // clickCounter
   const [clickCount, setClickCount] = useState(0);
@@ -150,10 +151,17 @@ function Card(props) {
   };
 
   const gameIsOver = rotate.every((obj) => obj.matched);
-  console.log(gameIsOver);
 
   return (
     <div className="bg-bgColorLight min-h-screen">
+      <MultiPlayer
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        newGameHandler={newGameHandler}
+        rotate={rotate}
+        generate={generate}
+        choosenType={choosenType}
+      />
       {openModal && (
         <Modal
           openModal={openModal}
@@ -161,7 +169,13 @@ function Card(props) {
           newGameHandler={newGameHandler}
         />
       )}
-      {gameIsOver && <FinalModal newGameHandler={newGameHandler} />}
+      {gameIsOver && (
+        <FinalModal
+          newGameHandler={newGameHandler}
+          time={time}
+          clickCount={clickCount}
+        />
+      )}
       <div className="flex p-6 justify-between items-center">
         <img className="w-24 h-6" src={logo} alt="logo" />
         <button
@@ -173,7 +187,6 @@ function Card(props) {
           Menu
         </button>
       </div>
-
       <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
         {rotate.map((icons, index) => (
           <div className="flex justify-center items-center" key={index}>
