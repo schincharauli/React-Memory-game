@@ -35,6 +35,8 @@ function Card(props) {
   const forByforValue = props.gridHandler;
   const forByFor = Array.from(Array(size / 2).keys());
 
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+
   // modal states
   const [openModal, setOpenModal] = useState(false);
 
@@ -175,6 +177,9 @@ function Card(props) {
           rotate={rotate}
           generate={generate}
           choosenType={choosenType}
+          setRotate={setRotate}
+          rotateHandler={rotateHandler}
+          clickCounterHandler={clickCounterHandler}
         />
       ) : (
         <div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.svg";
 import Modal from "./Modal";
 
@@ -7,9 +7,23 @@ function MultiPlayer({
   setOpenModal,
   newGameHandler,
   rotate,
-  generate,
   choosenType,
+  rotateHandler,
+  clickCounterHandler,
 }) {
+  const [currentPlayer, setCurrentPlayer] = useState(0);
+  const players = ["Player 1", "Player 2"];
+
+  const currentPlayerHandler = () => {
+    setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
+  };
+
+  const [increaseScore, setIncreaseScore] = useState(1);
+
+  const scoreIncreaseHandler = () => {
+    setIncreaseScore((prevScore) => prevScore + 1);
+  };
+
   return (
     <div>
       <div>
@@ -49,6 +63,8 @@ function MultiPlayer({
               onClick={() => {
                 clickCounterHandler();
                 rotateHandler(icons);
+                currentPlayerHandler();
+                scoreIncreaseHandler();
               }}
             >
               {choosenType !== "number" ? (
@@ -70,10 +86,22 @@ function MultiPlayer({
             </button>
           </div>
         ))}
-        <div className="flex m-4 pt-4 w-80">
-          <div className="w-16 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
-            <span>P1</span>
-            <span>moves</span>
+        <div className="flex m-4 pt-4 w-80 gap-4">
+          <div
+            className={`w-40 h-20  rounded-md flex flex-col justify-center text-center ${
+              currentPlayer === 0 ? "bg-yellow" : "bg-outlineColor"
+            }`}
+          >
+            <span>P1{currentPlayer[0]}</span>
+            <span>{increaseScore}</span>
+          </div>
+          <div
+            className={`w-40 h-20  rounded-md flex flex-col justify-center text-center ${
+              currentPlayer === 1 ? "bg-yellow" : "bg-outlineColor"
+            }`}
+          >
+            <span>P2{currentPlayer[1]}</span>
+            <span>{increaseScore}</span>
           </div>
         </div>
       </div>
