@@ -180,6 +180,7 @@ function Card(props) {
           setRotate={setRotate}
           rotateHandler={rotateHandler}
           clickCounterHandler={clickCounterHandler}
+          choosenPlayer={choosenPlayer}
         />
       ) : (
         <div>

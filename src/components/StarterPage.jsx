@@ -70,48 +70,48 @@ export default function StarterPage(props) {
           <div className="text-textColorWhite flex justify-between pt-2 ">
             <button
               className={`h-8 w-16 rounded-full ${
-                selectedPlayer === "1"
+                selectedPlayer === 1
                   ? "bg-coveredButtonColor"
                   : "bg-guessedButtonColor"
               }`}
               onClick={() => {
-                playerHandler("1");
+                playerHandler(1);
               }}
             >
               1
             </button>
             <button
               className={`h-8 w-16 rounded-full ${
-                selectedPlayer === "2"
+                selectedPlayer === 2
                   ? "bg-coveredButtonColor"
                   : "bg-guessedButtonColor"
               }`}
               onClick={() => {
-                playerHandler("2");
+                playerHandler(2);
               }}
             >
               2
             </button>
             <button
               className={`h-8 w-16 rounded-full ${
-                selectedPlayer === "3"
+                selectedPlayer === 3
                   ? "bg-coveredButtonColor"
                   : "bg-guessedButtonColor"
               }`}
               onClick={() => {
-                playerHandler("3");
+                playerHandler(3);
               }}
             >
               3
             </button>
             <button
               className={`h-8 w-16 rounded-full ${
-                selectedPlayer === "4"
+                selectedPlayer === 4
                   ? "bg-coveredButtonColor"
                   : "bg-guessedButtonColor"
               } `}
               onClick={() => {
-                playerHandler("4");
+                playerHandler(4);
               }}
             >
               4

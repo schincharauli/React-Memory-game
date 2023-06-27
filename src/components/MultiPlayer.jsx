@@ -10,19 +10,33 @@ function MultiPlayer({
   choosenType,
   rotateHandler,
   clickCounterHandler,
+  choosenPlayer,
 }) {
-  const [currentPlayer, setCurrentPlayer] = useState(0);
-  const players = ["Player 1", "Player 2"];
+  const playersMaker = () => {
+    const initialState = {};
 
-  const currentPlayerHandler = () => {
-    setCurrentPlayer(currentPlayer === 0 ? 1 : 0);
+    for (let index = 0; index < choosenPlayer; index++) {
+      initialState["player" + (index + 1)] = 0;
+    }
+    return initialState;
   };
 
-  const [increaseScore, setIncreaseScore] = useState(1);
+  const [stats, setStats] = useState(playersMaker());
 
-  const scoreIncreaseHandler = () => {
-    setIncreaseScore((prevScore) => prevScore + 1);
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+
+  const scoreIncrease = () => {
+    const scoreCounter = rotate.filter((value) => value.matched).length;
+    const totalScore = scoreCounter / 2;
+    const copy = { ...stats };
+    copy["player" + currentPlayer] = copy["player" + currentPlayer] + 1;
+    setStats(copy);
   };
+
+  // console.log(scoreCounter);
+
+  //   console.log(stats);
+  //   console.log(currentPlayer);
 
   return (
     <div>
@@ -63,8 +77,6 @@ function MultiPlayer({
               onClick={() => {
                 clickCounterHandler();
                 rotateHandler(icons);
-                currentPlayerHandler();
-                scoreIncreaseHandler();
               }}
             >
               {choosenType !== "number" ? (
@@ -76,7 +88,7 @@ function MultiPlayer({
                 />
               ) : (
                 <span
-                  className={` w-10 h-10 p-2 ${
+                  className={` w-10 h-10 p-2  ${
                     icons.clicked || icons.matched ? "block" : "hidden"
                   }`}
                 >
@@ -86,22 +98,21 @@ function MultiPlayer({
             </button>
           </div>
         ))}
-        <div className="flex m-4 pt-4 w-80 gap-4">
-          <div
-            className={`w-40 h-20  rounded-md flex flex-col justify-center text-center ${
-              currentPlayer === 0 ? "bg-yellow" : "bg-outlineColor"
-            }`}
-          >
-            <span>P1{currentPlayer[0]}</span>
-            <span>{increaseScore}</span>
-          </div>
-          <div
-            className={`w-40 h-20  rounded-md flex flex-col justify-center text-center ${
-              currentPlayer === 1 ? "bg-yellow" : "bg-outlineColor"
-            }`}
-          >
-            <span>P2{currentPlayer[1]}</span>
-            <span>{increaseScore}</span>
+
+        <div className="flex m-4 pt-4">
+          <div className="flex">
+            {Object.keys(stats).map((element, index) => (
+              <div
+                className={`h-20 rounded-md  text-center p-6 m-3 flex items-center ${
+                  "" ? "bg-yellow" : "bg-outlineColor"
+                }`}
+              >
+                <div className="flex flex-col">
+                  <span>P{index + 1}</span>
+                  <span>{stats[element]}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
