@@ -25,18 +25,24 @@ function MultiPlayer({
 
   const [currentPlayer, setCurrentPlayer] = useState(1);
 
-  const scoreIncrease = () => {
-    const scoreCounter = rotate.filter((value) => value.matched).length;
+  const scoreIncrease = (updatedRotate) => {
+    const scoreCounter = updatedRotate.filter((value) => value.matched).length;
     const totalScore = scoreCounter / 2;
-    const copy = { ...stats };
-    copy["player" + currentPlayer] = copy["player" + currentPlayer] + 1;
-    setStats(copy);
+
+    const playersScore = Object.values(stats);
+
+    const sum = playersScore.reduce((partialSum, a) => partialSum + a, 0);
+
+    if (totalScore > sum) {
+      const copy = { ...stats };
+      copy["player" + currentPlayer] = copy["player" + currentPlayer] + 1;
+      setStats({ ...copy });
+    } else {
+      const newCurrentPlayer =
+        currentPlayer + 1 > choosenPlayer ? 1 : currentPlayer + 1;
+      setCurrentPlayer(newCurrentPlayer);
+    }
   };
-
-  // console.log(scoreCounter);
-
-  //   console.log(stats);
-  //   console.log(currentPlayer);
 
   return (
     <div>
@@ -76,7 +82,7 @@ function MultiPlayer({
               disabled={icons.clicked || icons.matched}
               onClick={() => {
                 clickCounterHandler();
-                rotateHandler(icons);
+                rotateHandler(icons, scoreIncrease);
               }}
             >
               {choosenType !== "number" ? (
@@ -104,7 +110,7 @@ function MultiPlayer({
             {Object.keys(stats).map((element, index) => (
               <div
                 className={`h-20 rounded-md  text-center p-6 m-3 flex items-center ${
-                  "" ? "bg-yellow" : "bg-outlineColor"
+                  currentPlayer === index + 1 ? "bg-yellow" : "bg-outlineColor"
                 }`}
               >
                 <div className="flex flex-col">

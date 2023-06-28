@@ -104,7 +104,7 @@ function Card(props) {
 
   const [rotate, setRotate] = useState(generate());
   // rotation function
-  const rotateHandler = (rotatedObjects) => {
+  const rotateHandler = (rotatedObjects, scoreIncrease = null) => {
     const matchHandler = (match) => match.clicked;
     const response = rotate.find(matchHandler);
     if (response && response.value === rotatedObjects.value) {
@@ -115,6 +115,9 @@ function Card(props) {
         return card;
       });
       setTimeout(() => {
+        if (scoreIncrease) {
+          scoreIncrease(updatedRotate);
+        }
         setRotate(updatedRotate);
       }, 1000);
 
@@ -138,7 +141,9 @@ function Card(props) {
           }
           return card;
         });
-
+        if (scoreIncrease) {
+          scoreIncrease(updatedRotate);
+        }
         setRotate(updatedRotate);
       }, 1000);
     }
