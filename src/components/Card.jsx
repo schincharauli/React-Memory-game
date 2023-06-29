@@ -167,14 +167,14 @@ function Card(props) {
           newGameHandler={newGameHandler}
         />
       )}
-      {gameIsOver && (
+      {/* {gameIsOver && (
         <FinalModal
           newGameHandler={newGameHandler}
           time={time}
           clickCount={clickCount}
         />
-      )}
-      {choosenPlayer !== "1" ? (
+      )} */}
+      {choosenPlayer !== 1 ? (
         <MultiPlayer
           openModal={openModal}
           setOpenModal={setOpenModal}
@@ -186,6 +186,8 @@ function Card(props) {
           rotateHandler={rotateHandler}
           clickCounterHandler={clickCounterHandler}
           choosenPlayer={choosenPlayer}
+          gameIsOver={gameIsOver}
+          choosenGrid={choosenGrid}
         />
       ) : (
         <div>
@@ -200,60 +202,74 @@ function Card(props) {
               Menu
             </button>
           </div>
-          <div className="grid grid-cols-4 grid-rows-4 gap-2 pt-28">
-            {rotate.map((icons, index) => (
-              <div className="flex justify-center items-center" key={index}>
-                <button
-                  className={`w-16 h-16 rounded-full p-3 bg-bgColorDark ${
-                    icons.clicked
-                      ? "bg-yellow"
-                      : icons.matched
-                      ? "bg-guessedButtonColor "
-                      : "bg-bgColorDark"
-                  }
+          <div className="flex justify-center">
+            <div
+              className={` max-w-xl  ${
+                choosenGrid === 6
+                  ? "grid grid-cols-6 grid-rows-4 gap-1 pt-28"
+                  : "grid grid-cols-4 grid-rows-4 gap-1 pt-28"
+              }`}
+            >
+              {rotate.map((icons, index) => (
+                <div className="flex justify-center items-center" key={index}>
+                  <button
+                    className={` ${
+                      choosenGrid === 6
+                        ? "w-12 h-12 p-1 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-30 lg:h-30 "
+                        : "w-12 h-12 p-1 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-30 lg:h-30"
+                    }  rounded-full   bg-bgColorDark ${
+                      icons.clicked
+                        ? "bg-yellow"
+                        : icons.matched
+                        ? "bg-guessedButtonColor "
+                        : "bg-bgColorDark"
+                    }
              
             `}
-                  disabled={icons.clicked || icons.matched}
-                  onClick={() => {
-                    clickCounterHandler();
-                    rotateHandler(icons);
-                  }}
-                >
-                  {choosenType !== "number" ? (
-                    <img
-                      src={icons.value}
-                      className={` w-10 h-10 p-2 ${
-                        icons.clicked || icons.matched ? "block" : "hidden"
-                      }`}
-                    />
-                  ) : (
-                    <span
-                      className={` w-10 h-10 p-2 ${
-                        icons.clicked || icons.matched ? "block" : "hidden"
-                      }`}
-                    >
-                      {icons.value}
-                    </span>
-                  )}
-                </button>
-              </div>
-            ))}
-            <div className="flex m-12 pt-4 w-72 gap-2">
-              <div className="w-52 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
-                <p className="text-textColorGrey">Time</p>
-                <div className="text-coveredButtonColor">
-                  <span>
-                    {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
-                  </span>
-                  <span>
-                    {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
-                  </span>
+                    disabled={icons.clicked || icons.matched}
+                    onClick={() => {
+                      clickCounterHandler();
+                      rotateHandler(icons);
+                    }}
+                  >
+                    {choosenType !== "number" ? (
+                      <img
+                        src={icons.value}
+                        className={` w-16 h-16 md:w-16 md:h-16 lg:w-20 lg:h-20  p-3 ${
+                          icons.clicked || icons.matched ? "block" : "hidden"
+                        }`}
+                      />
+                    ) : (
+                      <span
+                        className={`text-lg sm:text-2xl md:text-4xl lg:text-6xl font-myFont font-bold text-textColorWhite  ${
+                          icons.clicked || icons.matched ? "block" : "hidden"
+                        }`}
+                      >
+                        {icons.value}
+                      </span>
+                    )}
+                  </button>
                 </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-center pt-12 pb-12 gap-4">
+            <div className=" w-32 sm:w-44 md:w-48 lg:w-52 xl:w-60 sm:flex h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+              <p className="text-textColorGrey font-myFont font-bold">Time</p>
+              <div className="text-coveredButtonColor">
+                <span className="font-myFont font-bold">
+                  {("0" + Math.floor((time / 60000) % 60)).slice(-2)}:
+                </span>
+                <span className="font-myFont font-bold">
+                  {("0" + Math.floor((time / 1000) % 60)).slice(-2)}
+                </span>
               </div>
-              <div className="w-52 h-20 bg-outlineColor rounded-md flex flex-col justify-center text-center">
-                <p className="text-textColorGrey">Moves</p>
-                <p className="text-coveredButtonColor">{clickCount}</p>
-              </div>
+            </div>
+            <div className="w-32 sm:w-44 md:w-48 lg:w-52 xl:w-60 bg-outlineColor rounded-md flex flex-col justify-center text-center">
+              <p className="text-textColorGrey font-myFont font-bold">Moves</p>
+              <p className="text-coveredButtonColor font-myFont font-bold ">
+                {clickCount}
+              </p>
             </div>
           </div>
         </div>

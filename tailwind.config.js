@@ -14,6 +14,9 @@ export default {
         coveredBtnHover: "#6395B8",
         outlineColor: "#DFE7EC",
       },
+      fontFamily: {
+        myFont: ["Atkinson Hyperlegible", "sans-serif"],
+      },
     },
   },
   plugins: [],
