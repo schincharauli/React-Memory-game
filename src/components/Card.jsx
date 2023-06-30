@@ -167,13 +167,6 @@ function Card(props) {
           newGameHandler={newGameHandler}
         />
       )}
-      {/* {gameIsOver && (
-        <FinalModal
-          newGameHandler={newGameHandler}
-          time={time}
-          clickCount={clickCount}
-        />
-      )} */}
       {choosenPlayer !== 1 ? (
         <MultiPlayer
           openModal={openModal}

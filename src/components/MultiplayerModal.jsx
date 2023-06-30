@@ -6,7 +6,6 @@ function MultiplayerModal({
   stats,
   currentPlayer,
   newGameHandler,
-  playersScore,
 }) {
   const navigate = useNavigate();
   const highestValue = Math.max(...Object.values(stats));
@@ -41,27 +40,32 @@ function MultiplayerModal({
                     } ${highestValueButton}`}
                   >
                     <div className="flex">
-                      <div className="flex">
+                      <div className="flex justify-around">
                         <div
-                          className={`mr-36 md:mr-52 pl-3 text-textColorGrey ${
+                          className={`flex  text-textColorGrey ${
                             stats[element] === highestValue
                               ? "text-textColorWhite"
                               : "text-textColorGrey"
                           }`}
                         >
-                          <p>P{index + 1}</p>
+                          <span className="flex items-center">
+                            P{index + 1}
+                            {stats[element] === highestValue && (
+                              <span className="ml-1">(Winner!)</span>
+                            )}
+                          </span>
                         </div>
-                        <div>
-                          <p
-                            className={`${
-                              stats[element] === highestValue
-                                ? "text-textColorWhite"
-                                : "text-textColorGrey"
-                            }`}
-                          >
-                            {stats[element]} Pairs
-                          </p>
-                        </div>
+                      </div>
+                      <div className="">
+                        <span
+                          className={`flex ${
+                            stats[element] === highestValue
+                              ? "text-textColorWhite"
+                              : "text-textColorGrey"
+                          }`}
+                        >
+                          {stats[element]} Pairs
+                        </span>
                       </div>
                     </div>
                   </div>
