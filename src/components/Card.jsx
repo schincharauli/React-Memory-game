@@ -228,7 +228,7 @@ function Card(props) {
                     {choosenType !== "number" ? (
                       <img
                         src={icons.value}
-                        className={` w-16 h-16 md:w-16 md:h-16 lg:w-20 lg:h-20  p-3 ${
+                        className={`w-12 h-12 pl-2 pr-2 pb-2 sm:w-16 sm:h-16 sm:pl-4 sm:pr-2 md:w-20 md:h-20 lg:w-20 lg:h-20 sm:p-2 md:p-4 lg:p-4 ${
                           icons.clicked || icons.matched ? "block" : "hidden"
                         }`}
                       />
