@@ -14,6 +14,7 @@ function MultiPlayer({
   choosenPlayer,
   gameIsOver,
   choosenGrid,
+  playersScore,
 }) {
   const playersMaker = () => {
     const initialState = {};
@@ -35,6 +36,7 @@ function MultiPlayer({
     const playersScore = Object.values(stats);
 
     const sum = playersScore.reduce((partialSum, a) => partialSum + a, 0);
+    // console.log(sum);
 
     if (totalScore > sum) {
       const copy = { ...stats };
@@ -44,7 +46,8 @@ function MultiPlayer({
       const newCurrentPlayer =
         currentPlayer + 1 > choosenPlayer ? 1 : currentPlayer + 1;
       setCurrentPlayer(newCurrentPlayer);
-      console.log(newCurrentPlayer);
+
+      // console.log(newCurrentPlayer);
     }
   };
 
@@ -58,6 +61,15 @@ function MultiPlayer({
             newGameHandler={newGameHandler}
           />
         )}
+        {gameIsOver && (
+          <MultiplayerModal
+            stats={stats}
+            currentPlayer={currentPlayer}
+            newGameHandler={newGameHandler}
+            playersScore={playersScore}
+          />
+        )}
+
         <div className="flex p-6 justify-between items-center">
           <img className="w-24 h-6" src={logo} alt="logo" />
           <button
@@ -70,19 +82,7 @@ function MultiPlayer({
           </button>
         </div>
       </div>
-      {gameIsOver && (
-        <MultiplayerModal
-          stats={stats}
-          currentPlayer={currentPlayer}
-          newGameHandler={newGameHandler}
-        />
-      )}
 
-      {/* <MultiplayerModal
-        stats={stats}
-        currentPlayer={currentPlayer}
-        newGameHandler={newGameHandler}
-      /> */}
       <div className="flex justify-center">
         <div
           className={` max-w-xl  ${
