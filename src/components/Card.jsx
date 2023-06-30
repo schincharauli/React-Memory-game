@@ -168,7 +168,7 @@ function Card(props) {
         />
       )}
 
-      {gameIsOver && (
+      {/* {gameIsOver && (
         <FinalModal
           endGame={endGame}
           setEndGame={setEndGame}
@@ -176,7 +176,7 @@ function Card(props) {
           time={time}
           clickCount={clickCount}
         />
-      )}
+      )} */}
       {choosenPlayer !== 1 ? (
         <MultiPlayer
           openModal={openModal}
